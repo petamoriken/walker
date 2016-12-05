@@ -1,0 +1,44 @@
+{
+  "name": "walker",
+  "version": "0.0.0",
+  "description": "art project",
+  "private": true,
+  "scripts": {
+    "build": "gulp",
+    "task": "gulp -T",
+    "clean": "rm -rf dest/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petamoriken/walker.git"
+  },
+  "keywords": [
+    "geolocation"
+  ],
+  "author": "Kenta Moriuchi (moriken@kimamass.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/petamoriken/walker/issues"
+  },
+  "homepage": "https://github.com/petamoriken/walker#readme",
+  "browser": {
+    "vue": "vue/dist/vue"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-latest": "^6.16.0",
+    "babel-runtime": "^6.18.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.1",
+    "eslint": "^3.11.1",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-foreach": "^0.1.0",
+    "gulp-load-plugins": "^1.4.0",
+    "vinyl-source-stream": "^1.1.0",
+    "vue": "^2.1.4",
+    "vue-router": "^2.1.1",
+    "vueify": "^9.3.0"
+  }
+}
