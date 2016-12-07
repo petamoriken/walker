@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img src="img/keyboard.jpg" alt="キーボード" ref="keyboard" class="keyboard">
-        <img src="img/cursor.png" alt="カーソル" class="cursor" :style="cursor">
+        <img class="keyboard" src="img/keyboard.jpg" alt="キーボード" ref="keyboard">
+        <img class="cursor" src="img/cursor.png" alt="カーソル" :style="cursor">
         <div>{{ output }}</div>
     </div>
 </template>
@@ -57,10 +57,8 @@
                 window.addEventListener("orientationchange", changeCursorPosition, false);
             }
 
-
             positionObservable.subscribe({
                 next(pos) {
-                    console.log(pos);
                     position.x = pos.x;
                     position.y = pos.y;
                     changeCursorPosition();
