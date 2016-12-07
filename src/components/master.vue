@@ -1,5 +1,5 @@
 <template>
-    <div>{{ str }}</div>
+    <div>input: {{ str }}</div>
 </template>
 
 <script>
@@ -32,6 +32,10 @@
                         this.str += key;  
                 }
             });
+        },
+
+        beforeDestroy() {
+            dataStore.off("send");
         }
     }
 </script>

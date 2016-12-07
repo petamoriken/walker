@@ -14,8 +14,6 @@
     .cursor {
         size: 34px 44px;
         position: absolute;
-        top: 0;
-        left: 0;
         pointer-events: none;
     }
 </style>
@@ -32,10 +30,13 @@
         data() {
             return {
                 cursor: {
-                    left: 0 + "px",
-                    top: 0 + "px"
+                    left: "5px",
+                    top: "130px"
                 },
-                output: ""
+                output: "",
+
+                changeCursorPosition: null,
+                subscription: null
             }
         },
 
@@ -47,7 +48,7 @@
 
             let searchText = "";
 
-            const changeCursorPosition = () => {
+            const changeCursorPosition = this.changeCursorPosition = () => {
                 const cursor = this.cursor;
 
                 const $keyboard = this.$refs.keyboard;
@@ -62,7 +63,7 @@
                 window.addEventListener("orientationchange", changeCursorPosition, false);
             }
 
-            positionObservable.subscribe({
+            this.subscription = positionObservable.subscribe({
                 next(pos) {
                     position.x = pos.x;
                     position.y = pos.y;
@@ -92,6 +93,14 @@
 
                 this.output = searchText.replace(" ", "_");
             }, false);
+        },
+
+        beforeDestroy() {
+            window.removeEventListener("resize", this.changeCursorPosition, false);
+            if(window.onorientationchange) {
+                window.removeEventListener("orientationchange", this.changeCursorPosition, false);
+            }
+            this.subscription.unsubscribe();
         }
     };
 </script>
