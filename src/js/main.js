@@ -6,7 +6,8 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     //mode: "history",
     routes: [
-        { path: "/slave", component: require("../components/slave.vue") }
+        { path: "/slave", component: require("../components/slave.vue") },
+        { path: "/master", component: require("../components/master.vue") }
     ]
 });
 

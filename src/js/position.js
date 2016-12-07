@@ -11,6 +11,12 @@ const coordinates = {
     }
 };
 
+function limit(val, min = 0, max = 1) {
+    const temp = min > val ? min : val;
+    return max < temp ? max : temp;
+}
+
+
 export default new Observable(observer => {
     navigator.geolocation.watchPosition(function(e) {
         const current = e.coords;
@@ -18,8 +24,8 @@ export default new Observable(observer => {
         const py = (current.longitude - coordinates.rightBottom.longitude) / (coordinates.leftTop.longitude - coordinates.rightBottom.longitude);
 
         observer.next({
-            x: -py + 1,
-            y: px
+            x: limit(-py + 1),
+            y: limit(px)
         });
 
     }, null, { enableHighAccuracy: true });

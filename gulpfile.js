@@ -24,12 +24,12 @@ gulp.task("html", () => {
 });
 
 gulp.task("resource", () => {
-    return gulp.src("src/img/**")
+    return gulp.src("src/img/**", { since: gulp.lastRun("resource") })
         .pipe(gulp.dest("dest/img/"));
 });
 
 gulp.task("watch", () => {
-    gulp.watch("src/js/main.js", gulp.series("js"));
+    gulp.watch(["src/js/**", "src/components/**"], gulp.series("js"));
     gulp.watch("src/index.html", gulp.series("html"));
 });
 

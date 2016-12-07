@@ -13,7 +13,7 @@
 
     .cursor {
         size: 34px 44px;
-        position: relative;
+        position: absolute;
         top: 0;
         left: 0;
         pointer-events: none;
@@ -25,6 +25,8 @@
     import positionObservable from "../js/position";
 
     import getKey from "../js/getKey";
+
+    import { key as dataStore } from "../js/dataStore";
 
     export default {
         data() {
@@ -47,9 +49,12 @@
 
             const changeCursorPosition = () => {
                 const cursor = this.cursor;
+
                 const $keyboard = this.$refs.keyboard;
-                cursor.left = ($keyboard.width * position.x - 13) + "px";
-                cursor.top = ($keyboard.height * (position.y - 1) - 3) + "px";
+                const rect = $keyboard.getBoundingClientRect();
+
+                cursor.left = (rect.left + window.pageXOffset + $keyboard.width * position.x - 13) + "px";
+                cursor.top = (rect.top + window.pageYOffset + $keyboard.height * position.y - 3) + "px";
             };
 
             window.addEventListener("resize", changeCursorPosition, false);
@@ -68,9 +73,13 @@
             jumpTarget.addEventListener("jump", () => {
                 const key = getKey(position);
 
+                dataStore.send({
+                    key
+                });
+
                 switch(key) {
                     case "\n":
-                        location.href = "https://www.google.co.jp/search?q=" + encodeURI(searchText);
+                        //location.href = "https://www.google.co.jp/search?q=" + encodeURI(searchText);
                         break;
                     
                     case "\b":
