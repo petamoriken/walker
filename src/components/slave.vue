@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img src="img/keyboard.jpg" alt="キーボード" ref="keyboard" class="keyboard" :style="{ top: cursor.top + 'px', left: cursor.left + 'px' }">
-        <img src="img/cursor.png" alt="カーソル" class="cursor">
+        <img src="img/keyboard.jpg" alt="キーボード" ref="keyboard" class="keyboard">
+        <img src="img/cursor.png" alt="カーソル" class="cursor" :style="cursor">
         <div>{{ output }}</div>
     </div>
 </template>
@@ -30,8 +30,8 @@
         data() {
             return {
                 cursor: {
-                    left: 0,
-                    top: 0
+                    left: 0 + "px",
+                    top: 0 + "px"
                 },
                 output: ""
             }
@@ -52,7 +52,11 @@
                 cursor.top = ($keyboard.height * (position.y - 1) - 3) + "px";
             };
 
-            changeCursorPosition();
+            window.addEventListener("resize", changeCursorPosition, false);
+            if(window.onorientationchange) {
+                window.addEventListener("orientationchange", changeCursorPosition, false);
+            }
+
 
             positionObservable.subscribe({
                 next(pos) {
@@ -76,7 +80,7 @@
                         break;
                     
                     default:
-                        searchText += key;          
+                        searchText += key;  
                 }
 
                 this.output = searchText.replace(" ", "_");
