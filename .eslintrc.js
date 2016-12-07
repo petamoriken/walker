@@ -10,6 +10,9 @@ module.exports = {
     "node": true,
     "commonjs": true
   },
+  globals: {
+    "MilkCocoa": false
+  },
   // To give you an idea how to override rule options:
   extends: ["eslint:recommended"],
   rules: {

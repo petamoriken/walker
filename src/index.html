@@ -2,10 +2,23 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Ground Worker</title>
+    <title>Ground Walker</title>
 </head>
 <body>
-    
+
+    <div id="app">
+        <h1>Hello App!!!!</h1>
+        <p>
+            <router-link to="/foo">Go to Foo</router-link>
+            <router-link to="/bar">Go to Bar</router-link>
+
+            <router-link to="/slave">Go to Slave</router-link>            
+        </p>
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.mlkcca.com/v0.6.0/milkcocoa.js"></script>
     <script src="js/build.js"></script>
+    
 </body>
 </html>

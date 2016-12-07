@@ -1,9 +1,6 @@
-const path = require("path");
-
 const source = require("vinyl-source-stream");
 
 const gulp = require("gulp");
-const $ = require("gulp-load-plugins")();
 
 const browserify = require("browserify");
 const vueify = require("vueify");
@@ -11,19 +8,29 @@ const babelify = require("babelify");
 
 
 // js (browserify, vueify, babelify)
-gulp.task(`js`, () => {
-    return gulp.src("src/js/main.js")
-        .pipe($.foreach((stream, file) => {
-            
-            const filePath = file.path;
-
-            return browserify(filePath)
-                .transform(vueify)
-                .transform(babelify)
-                .bundle()
-                .pipe(source(path.basename(filePath)));
-
-        })).pipe(gulp.dest("dest/"));
+gulp.task("js", () => {
+    return browserify("src/js/main.js", { debug: true })
+        .transform(vueify)
+        .transform(babelify)
+        .bundle()
+        .pipe(source("build.js"))
+        .pipe(gulp.dest("dest/js/"));
 });
 
-gulp.task("default", gulp.parallel("js"));
+// copy html
+gulp.task("html", () => {
+    return gulp.src("src/index.html")
+        .pipe(gulp.dest("dest/"));
+});
+
+gulp.task("resource", () => {
+    return gulp.src("src/img/**")
+        .pipe(gulp.dest("dest/img/"));
+});
+
+gulp.task("watch", () => {
+    gulp.watch("src/js/main.js", gulp.series("js"));
+    gulp.watch("src/index.html", gulp.series("html"));
+});
+
+gulp.task("default", gulp.parallel("js", "html", "resource"));
