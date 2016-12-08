@@ -1,21 +1,38 @@
 <template>
-    <div>input: {{ str }}</div>
+    <div>
+        <vue-keyboard :position="keyboardPosition"></vue-keyboard>
+        <div class="output">input: {{ str }}</div>
+    </div>
 </template>
 
-<script>
-    import { key as dataStore } from "../js/dataStore";
+<style scoped>
+    .output {
+        font-size: 2em
+    }
+</style>
 
-    window.dataStore = dataStore;
+<script>
+    import { key as keyDataStore, position as positionDataStore } from "../js/dataStore";
 
     export default {
         data() {
             return {
+                keyboardPosition: {
+                    x: 0.5,
+                    y: 0.5
+                },
                 str: ""
             }
         },
 
+        components: {
+            "vue-keyboard": require("./keyboard.vue")
+        },
+
         mounted() {
-            dataStore.on("send", datum => {
+            window.positionDataStore = positionDataStore;
+
+            keyDataStore.on("send", datum => {
                 const key = datum.value.key;
                 const str = this.str;
 
@@ -32,10 +49,17 @@
                         this.str += key;  
                 }
             });
+
+            positionDataStore.on("send", datum => {
+                const pos = datum.value;
+                this.keyboardPosition.x = pos.x;
+                this.keyboardPosition.y = pos.y;                
+            })
         },
 
         beforeDestroy() {
-            dataStore.off("send");
+            keyDataStore.off("send");
+            positionDataStore.off("send");
         }
     }
 </script>
