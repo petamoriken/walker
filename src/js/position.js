@@ -1,5 +1,9 @@
 import Observable from "zen-observable";
 
+const geolocationOptions = {
+    enableHighAccuracy: true  
+};
+
 const coordinates = {
     rightBottom: {
         latitude:33.5612511914536,
@@ -19,6 +23,8 @@ function limit(val, min = 0, max = 1) {
 
 export default new Observable(observer => {
     navigator.geolocation.watchPosition(function(e) {
+        console.log(e);
+
         const current = e.coords;
         const px = (current.latitude - coordinates.leftTop.latitude) / (coordinates.rightBottom.latitude - coordinates.leftTop.latitude);
         const py = (current.longitude - coordinates.rightBottom.longitude) / (coordinates.leftTop.longitude - coordinates.rightBottom.longitude);
@@ -28,5 +34,5 @@ export default new Observable(observer => {
             y: limit(px)
         });
 
-    }, null, { enableHighAccuracy: true });
+    }, null, geolocationOptions);
 });
