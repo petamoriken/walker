@@ -18,6 +18,10 @@
 </style>
 
 <script>
+    function isNormalized(num) {
+        return num >= 0 && num <= 1;
+    }
+
     export default {
 
         data() {
@@ -31,8 +35,16 @@
 
         props: {
             position: {
-                x: Number,
-                y: Number
+                x: {
+                    type: Number,
+                    default: 0,
+                    validator: isNormalized
+                },
+                y: {
+                    type: Number,
+                    default: 0,
+                    validator: isNormalized
+                }
             }
         },
 
@@ -44,18 +56,14 @@
 
         methods: {
             changeCursor() {
-                const x = this.position.x == null ? 0.5 : this.position.x;
-                const y = this.position.y == null ? 0.5 : this.position.y;
+                const $keyboard = this.$refs.keyboard;
 
-                try {
-                    const $keyboard = this.$refs.keyboard;
+                if($keyboard) {
                     const rect = $keyboard.getBoundingClientRect();
-
-                    
+                
                     this.cursor.left = (rect.left + window.pageXOffset + $keyboard.width * this.position.x - 13) + "px";
                     this.cursor.top = (rect.top + window.pageYOffset + $keyboard.height * this.position.y - 3) + "px";
-                    
-                } catch(e) {
+                } else {
                     this.cursor.left = "0px";
                     this.cursor.top = "0px";
                 }
