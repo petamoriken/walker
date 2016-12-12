@@ -1,9 +1,10 @@
 <template>
     <div>
-        <div>{{ current.description }} {{ punishment ? current.command : "" }}</div>
+        <div>{{ current.description }}</div>
+        <div v-show="punishment">{{ current.command }}</div>
         <input v-show="!punishment" @keyup.enter="submit" placeholder="input answer">
 
-        <vue-keyboard v-show="punishment" :position="keyboard.position"></vue-keyboard>
+        <vue-keyboard v-show="punishment" :position="keyboard.position" :isShow="punishment"></vue-keyboard>
         <div v-show="punishment">input: {{ keyboard.input }}</div>
     </div>
 </template>
@@ -29,8 +30,8 @@
         data() {
             const subscription = positionObservable.subscribe({
                 next: (pos) => {
-                    this.keyboard.position.x = pos.x;
-                    this.keyboard.position.y = pos.y;
+                        this.keyboard.position.x = pos.x;
+                        this.keyboard.position.y = pos.y;
                 }
             });
 
@@ -49,6 +50,9 @@
                         this.keyboard.input = input.substr(0, input.length - 1);
                         break;
                     
+                    case " ":
+                        break;
+                    
                     default:
                         this.keyboard.input = input + key;
                 }
@@ -63,6 +67,7 @@
                         x: 0,
                         y: 0
                     },
+
                     subscription,
                     jumpHandler,
                     input: ""

@@ -1,11 +1,15 @@
 <template>
-    <div>
+    <div class="wrapper">
         <img class="keyboard" src="img/keyboard.jpg" alt="キーボード" ref="keyboard">
         <img class="cursor" src="img/cursor.png" alt="カーソル" :style="cursor">
     </div>
 </template>
 
 <style scoped>
+    .wrapper {
+        position: relative;
+    }
+
     .keyboard {
         max-width: 100%;
     }
@@ -45,10 +49,19 @@
                     default: 0,
                     validator: isNormalized
                 }
+            },
+            isShow: {
+                type: Boolean,
+                default: false
             }
         },
 
         watch: {
+            isShow(val) {
+                if(val)
+                    this.changeCursor();
+            },
+
             ["position.x"]() {
                 this.changeCursor();
             }
@@ -58,14 +71,9 @@
             changeCursor() {
                 const $keyboard = this.$refs.keyboard;
 
-                if($keyboard) {
-                    const rect = $keyboard.getBoundingClientRect();
-                
-                    this.cursor.left = (rect.left + window.pageXOffset + $keyboard.width * this.position.x - 13) + "px";
-                    this.cursor.top = (rect.top + window.pageYOffset + $keyboard.height * this.position.y - 3) + "px";
-                } else {
-                    this.cursor.left = "0px";
-                    this.cursor.top = "0px";
+                if($keyboard && this.isShow) {
+                    this.cursor.left = ($keyboard.width * this.position.x - 13) + "px";
+                    this.cursor.top = ($keyboard.height * this.position.y - 3) + "px";
                 }
             }
         },
