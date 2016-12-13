@@ -17,6 +17,10 @@
     .cursor {
         size: 34px 44px;
         position: absolute;
+        top: -1px;
+        left: -24px;
+        transition: transform 0.3s ease-out;
+        opacity: 0.8;
         pointer-events: none;
     }
 </style>
@@ -31,8 +35,7 @@
         data() {
             return {
                 cursor: {
-                    left: "0px",
-                    top: "0px"
+                    transform: "translate3d(0, 0, 0)"
                 }
             }
         },
@@ -72,8 +75,9 @@
                 const $keyboard = this.$refs.keyboard;
 
                 if($keyboard && this.isShow) {
-                    this.cursor.left = ($keyboard.width * this.position.x - 13) + "px";
-                    this.cursor.top = ($keyboard.height * this.position.y - 3) + "px";
+                    const left = $keyboard.width * this.position.x + "px";
+                    const top = $keyboard.height * this.position.y + "px";
+                    this.cursor.transform = `translate3d(${ left }, ${ top }, 0)`;
                 }
             }
         },

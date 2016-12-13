@@ -7,6 +7,12 @@ const vueify = require("vueify");
 const csvify = require("node-csvify");
 const babelify = require("babelify");
 
+const autoprefixer = require("autoprefixer");
+
+vueify.compiler.applyConfig({
+    postcss: [autoprefixer({ browsers: ["last 2 versions"] })]
+});
+
 // js (browserify, vueify, babelify)
 gulp.task("js", () => {
     return browserify("src/js/main.js", { debug: true })

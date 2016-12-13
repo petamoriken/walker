@@ -1,14 +1,16 @@
 <template>
     <div>
         <div v-show="!punishment" class="form-group">
-            <label>{{ current.description }}</label>
+            <label>???: {{ current.description }}</label>
             <input @keyup.enter="submit" class="form-control" placeholder="command">
         </div>
 
         <div v-show="punishment">
-            <strong>{{ current.command }}: {{ current.description }}</strong>
+            <div class="form-group">
+                <label>{{ current.command }}: {{ current.description }}</label>
+                <input :value="keyboard.input" class="form-control" placeholder="command" disabled>
+            </div>
             <vue-keyboard :position="keyboard.position" :isShow="punishment"></vue-keyboard>
-            <strong>input: {{ keyboard.input }}</strong>
         </div>
     </div>
 </template>
@@ -111,25 +113,30 @@
 
                 if(value === correct) {
 
+                    this.commands.shift();
                     await swalPromise({
                         title: "正解！",
                         type: "success"
                     });
-                    this.commands.shift();
 
                 } else {
 
+                    this.punishment = true;
                     await swalPromise({
                         title: "間違え！",
                         text: `答えは ${ correct } でした！`,
                         type: "error"
                     });
-                    this.punishment = true;
+                    
 
                 }
 
                 $input.value = "";
             }
+        },
+
+        mounted() {
+            window.game = this;
         },
 
         beforeDestoroy() {
