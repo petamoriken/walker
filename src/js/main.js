@@ -5,9 +5,10 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
     //mode: "history",
-    routes: [
-        { path: "/game", component: require("../components/game.vue") }
-    ]
+    routes: [{
+        path: "/",
+        component: require("../components/game.vue")
+    }]
 });
 
 new Vue({

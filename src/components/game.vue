@@ -1,11 +1,15 @@
 <template>
     <div>
-        <div>{{ current.description }}</div>
-        <div v-show="punishment">{{ current.command }}</div>
-        <input v-show="!punishment" @keyup.enter="submit" placeholder="input answer">
+        <div v-show="!punishment" class="form-group">
+            <label>{{ current.description }}</label>
+            <input @keyup.enter="submit" class="form-control" placeholder="command">
+        </div>
 
-        <vue-keyboard v-show="punishment" :position="keyboard.position" :isShow="punishment"></vue-keyboard>
-        <div v-show="punishment">input: {{ keyboard.input }}</div>
+        <div v-show="punishment">
+            <strong>{{ current.command }}: {{ current.description }}</strong>
+            <vue-keyboard :position="keyboard.position" :isShow="punishment"></vue-keyboard>
+            <strong>input: {{ keyboard.input }}</strong>
+        </div>
     </div>
 </template>
 
@@ -19,7 +23,14 @@
 
     import jumpTarget from "../js/jump";
 
+
     commands.shuffle = shuffle.bind(commands);
+
+    function swalPromise(options) {
+        return new Promise(function(resolve) {
+            swal(options, resolve);
+        });
+    }
 
     export default {
         
@@ -92,18 +103,29 @@
         },
 
         methods: {
-            submit(e) {
+            async submit(e) {
                 const $input = e.target;
 
                 const value = $input.value;
                 const correct = this.current.command;
 
                 if(value === correct) {
-                    alert("正解！");
+
+                    await swalPromise({
+                        title: "正解！",
+                        type: "success"
+                    });
                     this.commands.shift();
+
                 } else {
-                    alert(`間違い！ 答えは${ correct }でした！`);
+
+                    await swalPromise({
+                        title: "間違え！",
+                        text: `答えは ${ correct } でした！`,
+                        type: "error"
+                    });
                     this.punishment = true;
+
                 }
 
                 $input.value = "";
