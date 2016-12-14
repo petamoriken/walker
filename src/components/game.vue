@@ -56,6 +56,11 @@
                     case "\n":
                         if(this.current.command === this.keyboard.input) {
                             this.punishment = false;
+                            this.keyboard.input = "";
+                            swal({
+                                title: "Okay！",
+                                type: "success"
+                            });
                         }
                         break;
                     
