@@ -8,7 +8,7 @@
     "watch": "gulp watch",
     "task": "gulp -T",
     "clean": "rm -rf dest/",
-    "test": "open -a \"/Applications/Google Chrome.app\" http://localhost/~Moriken/walker/dest/"
+    "test": "open -a \"/Applications/Google Chrome.app\" http://localhost/~KentaMoriuchi/walker/dest/"
   },
   "repository": {
     "type": "git",

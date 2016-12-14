@@ -5,13 +5,12 @@
             <input @keyup.enter="submit" class="form-control" placeholder="command">
         </div>
 
-        <div v-show="punishment">
-            <div class="form-group">
-                <label>{{ current.command }}: {{ current.description }}</label>
-                <input :value="keyboard.input" class="form-control" placeholder="command" disabled>
-            </div>
-            <vue-keyboard :position="keyboard.position" :isShow="punishment"></vue-keyboard>
+        <div v-show="punishment" class="form-group">
+            <label>{{ current.command }}: {{ current.description }}</label>
+            <input :value="keyboard.input" class="form-control" placeholder="command" disabled>
         </div>
+
+        <vue-keyboard v-show="punishment" :position="keyboard.position" :isShow="punishment"></vue-keyboard>
     </div>
 </template>
 
