@@ -8,10 +8,19 @@ const router = new VueRouter({
     routes: [{
         path: "/",
         component: require("../components/game.vue")
+    }, {
+        path: "/tutorial",
+        component: require("../components/tutorial.vue")
     }]
 });
 
-new Vue({
+const vue = new Vue({
     el: "#app",
     router
 });
+
+const tutorialCompleted = localStorage.getItem("tutorial");
+
+if(!tutorialCompleted) {
+    window.vue = vue;
+}

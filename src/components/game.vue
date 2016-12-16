@@ -19,11 +19,11 @@
     import shuffle from "../js/shuffle";
 
     import keyboardComponent from "./keyboard.vue";
+    
     import positionObservable from "../js/position";
     import getKey from "../js/getKey";
 
     import jumpTarget from "../js/jump";
-
 
     commands.shuffle = shuffle.bind(commands);
 
@@ -57,9 +57,14 @@
                             this.punishment = false;
                             this.keyboard.input = "";
                             swal({
-                                title: "Okay！",
+                                title: "次の問題へ",
                                 type: "success"
                             });
+                        } else {
+                            swal({
+                                title: "入力が間違っています！",
+                                type: "error"
+                            })
                         }
                         break;
                     
@@ -137,10 +142,6 @@
 
                 $input.value = "";
             }
-        },
-
-        mounted() {
-            window.game = this;
         },
 
         beforeDestoroy() {
