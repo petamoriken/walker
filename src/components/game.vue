@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div v-show="!punishment" class="form-group">
+        <div v-if="!punishment" class="form-group">
             <label>???: {{ current.description }}</label>
-            <input @keyup.enter="submit" class="form-control" placeholder="command">
+            <input @keypress.enter="submit" class="form-control" placeholder="command">
         </div>
 
-        <div v-show="punishment" class="form-group">
+        <div v-else class="form-group">
             <label>{{ current.command }}: {{ current.description }}</label>
             <input :value="keyboard.input" class="form-control" placeholder="command" disabled>
         </div>
