@@ -1,14 +1,19 @@
 const source = require("vinyl-source-stream");
 
+// gulp
 const gulp = require("gulp");
+const notify = require("gulp-notify");
 
+// browserify
 const browserify = require("browserify");
 const vueify = require("vueify");
 const csvify = require("node-csvify");
 const babelify = require("babelify");
 
+// postcss
 const autoprefixer = require("autoprefixer");
 
+// setting
 vueify.compiler.applyConfig({
     postcss: [autoprefixer({ browsers: ["last 2 versions"] })]
 });
@@ -20,7 +25,15 @@ gulp.task("js", () => {
         .transform(csvify)
         .transform(babelify)
         .bundle()
-        .pipe(source("build.js"))
+        .on("error", function() {
+
+            notify.onError({
+                title: "CompileError",
+                message: "<%= error %>"
+            }).apply(this, arguments);
+            this.emit("end");
+
+        }).pipe(source("build.js"))
         .pipe(gulp.dest("dest/js/"));
 });
 
