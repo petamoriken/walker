@@ -28,7 +28,7 @@ export default new Observable(observer => {
         const py = (current.longitude - coordinates.rightBottom.longitude) / (coordinates.leftTop.longitude - coordinates.rightBottom.longitude);
 
         observer.next({
-            x: limit(-py + 1),
+            x: limit(1 - py),
             y: limit(px)
         });
 

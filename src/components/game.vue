@@ -20,10 +20,10 @@
 
     import keyboardComponent from "./keyboard.vue";
     
-    import positionObservable from "../js/position";
+    import positionObservable from "../js/observables/position";
+    import jumpObservable from "../js/observables/jump";
+    
     import getKey from "../js/getKey";
-
-    import jumpTarget from "../js/jump";
 
     commands.shuffle = shuffle.bind(commands);
 
@@ -40,43 +40,45 @@
         },
 
         data() {
-            const subscription = positionObservable.subscribe({
+            const positionSubscription = positionObservable.subscribe({
                 next: (pos) => {
                         this.keyboard.position.x = pos.x;
                         this.keyboard.position.y = pos.y;
                 }
             });
 
-            const jumpHandler = () => {
-                const key = getKey(this.keyboard.position);
-                const input = this.keyboard.input;
+            const jumpObserver = {
+                next: () => {
+                    const key = getKey(this.keyboard.position);
+                    const input = this.keyboard.input;
 
-                switch(key) {
-                    case "\n":
-                        if(this.current.command === this.keyboard.input) {
-                            this.punishment = false;
-                            this.keyboard.input = "";
-                            swal({
-                                title: "次の問題へ",
-                                type: "success"
-                            });
-                        } else {
-                            swal({
-                                title: "入力が間違っています！",
-                                type: "error"
-                            })
-                        }
-                        break;
-                    
-                    case "\b":
-                        this.keyboard.input = input.substr(0, input.length - 1);
-                        break;
-                    
-                    case " ":
-                        break;
-                    
-                    default:
-                        this.keyboard.input = input + key;
+                    switch(key) {
+                        case "\n":
+                            if(this.current.command === this.keyboard.input) {
+                                this.punishment = false;
+                                this.keyboard.input = "";
+                                swal({
+                                    title: "次の問題へ",
+                                    type: "success"
+                                });
+                            } else {
+                                swal({
+                                    title: "入力が間違っています！",
+                                    type: "error"
+                                })
+                            }
+                            break;
+                        
+                        case "\b":
+                            this.keyboard.input = input.substr(0, input.length - 1);
+                            break;
+                        
+                        case " ":
+                            break;
+                        
+                        default:
+                            this.keyboard.input = input + key;
+                    }
                 }
             };
 
@@ -90,9 +92,16 @@
                         y: 0
                     },
 
-                    subscription,
-                    jumpHandler,
                     input: ""
+                },
+
+                position: {
+                    subscription: positionSubscription
+                },
+
+                jump: {
+                    observer: jumpObserver,
+                    subscription: null
                 }
             }
         },
@@ -106,9 +115,10 @@
         watch: {
             punishment(flag) {
                 if(flag) {
-                    jumpTarget.addEventListener("jump", this.keyboard.jumpHandler);
+                    this.jump.subscription = jumpObservable.subscribe(this.jump.observer);
                 } else {
-                    jumpTarget.removeEventListener("jump", this.keyboard.jumpHandler);
+                    this.jump.subscription.unsubscribe();
+                    this.jump.subscription = null;
                 }
             }
         },
@@ -145,9 +155,9 @@
         },
 
         beforeDestoroy() {
-            this.subscription.unsubscribe();
-            if(this.punishment) {
-                jumpTarget.removeEventListener("jump", this.keyboard.jumpHandler);
+            this.position.subscription.unsubscribe();
+            if(this.jump.subscription) {
+                this.jump.subscription.unsubscribe();
             }
         }
     }
