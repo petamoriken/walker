@@ -13,6 +13,7 @@ export default new Observable(observer => {
     let startTime = null;
 
     function handler(e) {
+
         const abs = absolute(e.acceleration);
         const currentTime = e.timeStamp;
 

@@ -19,8 +19,11 @@ const vue = new Vue({
     router
 });
 
+// tutorial
+/*
 const tutorialCompleted = localStorage.getItem("tutorial");
 
 if(!tutorialCompleted) {
     window.vue = vue;
 }
+*/
