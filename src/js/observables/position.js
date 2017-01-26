@@ -22,7 +22,7 @@ function limit(val, min = 0, max = 1) {
 
 
 export default new Observable(observer => {
-    navigator.geolocation.watchPosition(function(e) {
+    const id = navigator.geolocation.watchPosition(function(e) {
         const current = e.coords;
         const px = (current.latitude - coordinates.leftTop.latitude) / (coordinates.rightBottom.latitude - coordinates.leftTop.latitude);
         const py = (current.longitude - coordinates.rightBottom.longitude) / (coordinates.leftTop.longitude - coordinates.rightBottom.longitude);
@@ -33,4 +33,6 @@ export default new Observable(observer => {
         });
 
     }, null, geolocationOptions);
+
+    return () => navigator.geolocation.clearWatch(id);
 });
