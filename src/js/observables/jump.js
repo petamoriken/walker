@@ -3,9 +3,9 @@ import Observable from "zen-observable";
 const threshold = 8.0;
 const duration = 800;
 
-function absolute(obj) {
+function hypotenuse(obj) {
     const { x, y, z } = obj;
-    return Math.sqrt(x * x + y * y + z * z);
+    return Math.hypot(x, y, z);
 }
 
 
@@ -14,14 +14,14 @@ export default new Observable(observer => {
 
     function handler(e) {
 
-        const abs = absolute(e.acceleration);
+        const hypot = hypotenuse(e.acceleration);
         const currentTime = e.timeStamp;
 
         if(!startTime) {
             startTime = currentTime;
         } else {
 
-            if(abs < threshold) {
+            if(hypot < threshold) {
                 if(currentTime - startTime > duration) {
                     observer.next();
                 }

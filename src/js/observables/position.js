@@ -6,12 +6,12 @@ const geolocationOptions = {
 
 const coordinates = {
     rightBottom: {
-        latitude:33.5612511914536,
-        longitude:130.43050800462294
+        latitude:   33.5612511914536,
+        longitude:  130.43050800462294
     },
     leftTop: {
-        latitude:33.56201138816174,
-        longitude:130.42951424618292
+        latitude:   33.56201138816174,
+        longitude:  130.42951424618292
     }
 };
 
