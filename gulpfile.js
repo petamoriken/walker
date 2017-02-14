@@ -18,6 +18,8 @@ vueify.compiler.applyConfig({
     postcss: [autoprefixer({ browsers: ["last 2 versions"] })]
 });
 
+const target = "docs";
+
 // js (browserify, vueify, babelify)
 gulp.task("js", () => {
     return browserify("src/js/main.js", { debug: true })
@@ -34,18 +36,18 @@ gulp.task("js", () => {
             this.emit("end");
 
         }).pipe(source("build.js"))
-        .pipe(gulp.dest("dest/js/"));
+        .pipe(gulp.dest(`${target}/js/`));
 });
 
 // copy html
 gulp.task("html", () => {
     return gulp.src("src/index.html")
-        .pipe(gulp.dest("dest/"));
+        .pipe(gulp.dest(`${target}/`));
 });
 
 gulp.task("resource", () => {
     return gulp.src("src/img/**", { since: gulp.lastRun("resource") })
-        .pipe(gulp.dest("dest/img/"));
+        .pipe(gulp.dest(`${target}/img/`));
 });
 
 gulp.task("watch", () => {
